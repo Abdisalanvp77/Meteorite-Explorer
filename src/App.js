@@ -3,8 +3,8 @@ import './App.css';
 import Meteorite from './components/Meteorite';
 import SearchPanel from './components/SearchPanel';
 class App extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       meteors: [
         {id: 1,
