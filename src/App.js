@@ -6,6 +6,8 @@ class App extends Component{
   constructor(props){
     super(props);
     this.state = {
+      loading: false,
+      apiData: [],
       meteors: [
         {id: 1,
         name: "yassin",
@@ -54,14 +56,33 @@ class App extends Component{
       ],
     }
   }
+
+  componentDidMount(){
+    this.setState({loading: true})
+    fetch("https://data.nasa.gov/resource/gh4g-9sfh.json")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          loading: false,
+          apiData: data
+        })
+      })
+  }
+
+
   render() {
-    console.log(this.state.meteors);
+    console.log(this.state.apiData);
+    for(let item in this.state.apiData){
+      console.log(item["fall"]);
+    }
+    const text = this.state.loading ? "loading ..." : this.state.apiData;
     return (
       <div className="App">
         <h5 className="App-Header">Meteorite Explorer</h5>
-        <SearchPanel />
+        {/* <p> {text} </p> */}
+        <SearchPanel meteorites={this.state.apiData}/>
         
-        <Meteorite meteorites={this.state.meteors}/>
+        <Meteorite meteorites={this.state.apiData}/>
       </div>
     );
   }
